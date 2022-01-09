@@ -7,7 +7,8 @@ class colorcodes:
     ENDC = '\033[0m'
 
 def init_file(numletters):
-    f = open('five.txt', 'r')
+    name = numletters + '.txt'
+    f = open(name, 'r')
     content = f.read()
     word_list = content.splitlines()
     f.close()
@@ -17,13 +18,16 @@ def charsplit(word):
     return [char for char in word]
 
 def main():
-    word_list = init_file(5)
+    num = input('Word length: four or five letters? Type \'four\' or \'five\' to select. ')
+    while num != 'four' and num != 'five':
+        num = input('Error! Invalid response\n')
+    word_list = init_file(num)
     answer = random.choice(word_list)
     playing = True
     counter = 0
     while playing:
         guess = input('Guess a word!\n')
-        while len(guess) != 5:
+        while len(guess) != len(answer):
             print('Error! Please make sure your input is the right length')
             guess = input('Guess a word!\n')
         while guess not in word_list:
@@ -36,7 +40,7 @@ def main():
             print(colorcodes.GREEN + answer + colorcodes.ENDC)
             print('You win! This attempt took you ' + str(counter) + ' tries')
         else:
-            for x in range(0, 5):
+            for x in range(0, len(guesslist)):
                 if guesslist[x] == answerlist[x]:
                     print(colorcodes.GREEN + guesslist[x] + ' ' + colorcodes.ENDC)
                     answerlist[x] = 0
